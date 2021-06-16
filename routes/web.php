@@ -14,9 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('guest.welcome');
 });
-
+// Rotte autenticazione
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Rotte amministrazione 
+// Dashboard post login
+// Route::get('/admin', 'HomeController@index')->name('home');
+Route::prefix('admin')
+    ->namespace('Admin')
+    ->middleware('auth')
+    ->name('admin.')
+    ->group(function()
+    {
+        //rotta home admin
+        Route::get('/', 'HomeController@index')->name('home');
+
+        //rotta resource post
+    });
