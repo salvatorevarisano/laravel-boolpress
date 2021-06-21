@@ -22,13 +22,13 @@
                             {{$post->title}}
                         </td>
                         <td>
-                            <a href="">Show</a>
+                            <a class="btn btn-success" href="{{route('admin.posts.show', $post->id)}}">Show</a>
                         </td>
                         <td>
-                            <a href="">Edit</a>
+                            <a class="btn btn-primary" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
                         </td>
                         <td>
-                            <a href="">Delete</a>
+                            <a class="btn btn-danger" href="">Delete</a>
                         </td>
                     </tr>
                 @endforeach
