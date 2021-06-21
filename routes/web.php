@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// per evitare che vs code segnali come errore Auth::routes()
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +34,5 @@ Route::prefix('admin')
         Route::get('/', 'HomeController@index')->name('home');
 
         //rotta resource post
+        Route::resource('posts', 'PostController');
     });
