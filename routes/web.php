@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('guest.welcome');
-});
+
 // Rotte autenticazione
 Auth::routes();
 
@@ -36,3 +34,8 @@ Route::prefix('admin')
         //rotta resource post
         Route::resource('posts', 'PostController');
     });
+
+// Front office 
+Route::get('{any?}', function () {
+    return view('guest.home');
+})->where('any', '.*');
