@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('deleted'))
+            <div class="alert alert-success">
+                <strong>{{session('deleted')}}</strong>
+                deleted successfully.
+            </div>
+        @endif
         <h1>OUR POSTS</h1>
         <a href="{{route('admin.posts.create')}}"
             class="btn btn-info mb-5"
@@ -33,7 +39,12 @@
                             <a class="btn btn-primary" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" href="">Delete</a>
+                            <form class="delete-post-form" action="{{route('admin.posts.destroy', $post->id)}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
