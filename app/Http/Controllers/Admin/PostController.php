@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -28,7 +29,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -43,6 +45,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:255|unique:posts',
             'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id',
         ], [
             // custom message 
             'required'=>'The :attribute is required',
