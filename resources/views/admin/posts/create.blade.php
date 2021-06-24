@@ -39,6 +39,7 @@
                         @enderror
                     </div>
 
+                    {{-- caregories --}}
                     <div class="mb-3">
                         <label for="category_id">Category</label>
                         <select name="category_id" id="category_id" class="form-control">
@@ -52,7 +53,24 @@
                         @error('category_id')
                             <div>{{$message}}</div>
                         @enderror
-                       
+                    </div>
+
+                    {{-- tags --}}
+                    <h4>Tags</h4>
+                    <div class="mb-3">
+                        @foreach ($tags as $tag)
+                            <span class="d-inline-block mr-3">
+                                <input type="checkbox" name="tags[]" id="tag{{$loop->iteration}}" value="{{$tag->id}}" 
+                                @if(in_array($tag->id, old('tags', []))) checked @endif> 
+                                <label for="tag{{$loop->iteration}}">
+                                    {{$tag->name}}
+                                </label>
+                            </span>
+                            
+                        @endforeach
+                        @error('tags')
+                            <div>{{$message}}</div>
+                        @enderror
                     </div>
                     
                     <button type="submit" class="btn btn-primary">Create</button>

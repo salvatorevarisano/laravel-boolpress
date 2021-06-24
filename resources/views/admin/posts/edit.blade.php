@@ -41,6 +41,22 @@
                             <div>{{$message}}</div>
                         @enderror
                     </div>
+
+                    {{-- caregories --}}
+                    <div class="mb-3">
+                        <label for="category_id">Category</label>
+                        <select name="category_id" id="category_id" class="form-control">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}"
+                                    @if($category->id == old('category_id', $post->category_id)) selected @endif>{{$category->name}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <div>{{$message}}</div>
+                        @enderror
+                    </div>
                     
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

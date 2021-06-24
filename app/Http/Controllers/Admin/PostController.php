@@ -8,6 +8,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -30,7 +31,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -46,6 +49,8 @@ class PostController extends Controller
             'title' => 'required|max:255|unique:posts',
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id',
+
         ], [
             // custom message 
             'required'=>'The :attribute is required',
@@ -62,6 +67,12 @@ class PostController extends Controller
         $new_post = new Post();
         $new_post->fill($data); // FILLABLE
         $new_post->save();
+
+        //salva relazione con tags in poivot 
+        if (array_key_exists('tags', $data)) {
+
+            $new_post->tags()->attach($data['tags']);
+        }
 
         return redirect()->route('admin.posts.show', $new_post->id);
     }
@@ -92,10 +103,11 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+        $categories = Category::all();
         if (! $post) {
             abort(404);
         }
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -116,6 +128,7 @@ class PostController extends Controller
                 'max:255'
             ],
             'content' => 'required',
+            'category_id' => 'nullable|exists:categories.id',
         ], [
             // custom message 
             'required'=>'The :attribute is required',
