@@ -19,8 +19,10 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $posts = Post::all();
-        return view('admin.posts.index', compact('posts'));
+        $categories = Category::all();
+        return view('admin.posts.index', compact('posts', 'categories'));
     }
 
     /**
@@ -87,11 +89,13 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+
+
         if(! $post) {
             abort(404);
         }
         // dump($post);
-        return view('admin.posts.show', compact('post'));
+        return view('admin.posts.show', compact('post',));
     }
 
     /**
@@ -128,7 +132,7 @@ class PostController extends Controller
                 'max:255'
             ],
             'content' => 'required',
-            'category_id' => 'nullable|exists:categories.id',
+            'category_id' => 'nullable|exists:categories,id',
         ], [
             // custom message 
             'required'=>'The :attribute is required',

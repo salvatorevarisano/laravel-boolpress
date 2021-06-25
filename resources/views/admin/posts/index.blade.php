@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="container">
         @if (session('deleted'))
@@ -14,23 +15,33 @@
         >
             Create
         </a>
-
         <table class="table">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
+                    <th>Category</th>
                     <th colspan="3">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($posts as $post)
-                    <tr>
-                        <td>
+                <tr>
+                    <td>
+
                             {{$post->id}}
                         </td>
                         <td>
                             {{$post->title}}
+                        </td>
+                        <td>
+                            @if($post->category)
+                                {{$post->category->name}}
+                            @elseif(! $post->category)
+                                without category
+                            @endif
+                            
+
                         </td>
                         <td>
                             <a class="btn btn-success" href="{{route('admin.posts.show', $post->id)}}">Show</a>
@@ -50,6 +61,20 @@
                 @endforeach
             </tbody>
         </table>
+
+        {{-- posts by category --}}
+
+        <h2>Posts by category</h2>
+        @foreach ($categories as $category)
+            <h3>{{$category->name}}</h3>
+            @forelse ($category->posts as $post)
+                <h4><a href="{{route('admin.posts.show', $post->id)}}">{{$post->title}}</a></h4>
+                
+            @empty
+                Post not found.
+            @endforelse
+        @endforeach
+
     </div>
 
 @endsection

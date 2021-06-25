@@ -4,6 +4,10 @@
 
       <main>
           <h1>Welcome to public home</h1>
+          <article>
+        
+          </article>
+
       </main>
   </div>
 </template>
@@ -16,7 +20,31 @@ export default {
 
     components: {
         Header,
+    },
+
+    data() {
+        return {
+            posts: [],
+        }
+    },
+
+    created() {
+        this.getPosts();
+    },
+
+    methods: {
+        getPosts() {
+            axios.get('http://127.0.0.1:8000/api/posts')
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
     }
+
+    
 }
 </script>
 

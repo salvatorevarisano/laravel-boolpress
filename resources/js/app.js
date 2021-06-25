@@ -4,6 +4,8 @@
 
 
 window.Vue = require('vue');
+window.axios = require('axios'); //alternativa in file app.vue import axios from 'axios';
+
 
 
 // init vue main instance

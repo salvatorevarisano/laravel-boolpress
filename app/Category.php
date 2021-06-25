@@ -8,6 +8,6 @@ class Category extends Model
 {
     //categories - posts
     public function posts() {
-        return $this->hasMany('App\Category');
+        return $this->hasMany('App\Post');
     }
 }

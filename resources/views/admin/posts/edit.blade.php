@@ -49,7 +49,11 @@
                             <option value="">Select Category</option>
                             @foreach ($categories as $category)
                                 <option value="{{$category->id}}"
-                                    @if($category->id == old('category_id', $post->category_id)) selected @endif>{{$category->name}}
+                                    @if($category->id == old('category_id', $post->category_id)) 
+                                        selected 
+                                    @endif
+                                >
+                                    {{$category->name}}
                                 </option>
                             @endforeach
                         </select>

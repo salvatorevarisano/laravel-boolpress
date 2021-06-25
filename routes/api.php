@@ -13,7 +13,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+// test api endpoint
+Route::get('/test', function() {
+    return response()->json([
+        'names' => ['Luca', 'Gianni', 'Luigi']
+    ]);
+});
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// get posts  
+
+Route::namespace('Api')->group(function() {
+    Route::get('/posts', 'PostController@index');
+
 });
