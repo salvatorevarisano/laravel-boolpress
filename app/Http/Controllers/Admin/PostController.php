@@ -73,7 +73,7 @@ class PostController extends Controller
         //salva relazione con tags in poivot 
         if (array_key_exists('tags', $data)) {
 
-            $new_post->tags()->attach($data['tags']);
+            $new_post->tags()->attach($data['tags']); //aggiunge nuvi records nella tabella pivot
         }
 
         return redirect()->route('admin.posts.show', $new_post->id);
@@ -108,10 +108,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $categories = Category::all();
+        $tags = Tag::all();
+
         if (! $post) {
             abort(404);
         }
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -133,6 +135,7 @@ class PostController extends Controller
             ],
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id',
         ], [
             // custom message 
             'required'=>'The :attribute is required',
@@ -148,6 +151,14 @@ class PostController extends Controller
         }
 
         $post->update($data); //fillable
+
+        // Aggiorna relazione tabella pivot
+        if (array_key_exists('tags', $data)) {
+            //aggiungere recor tabella pivot 
+            $post->tags()->sync($data['tags']);
+        } else {
+            $post->tags()->detach();
+        }
         
         return redirect()->route('admin.posts.show', $post->id);
     }
@@ -161,6 +172,11 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+        //pulizia recor orfani da tablla pivot
+        $post->tags()->detach();
+
+        // rimozione
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('deleted', $post->title);

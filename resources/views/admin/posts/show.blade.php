@@ -12,5 +12,17 @@
         </div>
         <div>{{$post->content}}</div>
         
+        @if(count($post->tags) > 0)
+            <div class="mt-3">
+                <h4>Tags</h4>
+                <ul>
+                    @foreach($post->tags as $tag)
+                        <li>{{$tag->name}}</li> 
+                    @endforeach                    
+                </ul>                
+            </div>
+        @endif
     </div>
+    {{-- @dump($post) --}}
+
 @endsection

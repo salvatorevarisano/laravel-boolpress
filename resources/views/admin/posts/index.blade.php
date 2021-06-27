@@ -69,7 +69,6 @@
             <h3>{{$category->name}}</h3>
             @forelse ($category->posts as $post)
                 <h4><a href="{{route('admin.posts.show', $post->id)}}">{{$post->title}}</a></h4>
-                
             @empty
                 Post not found.
             @endforelse
