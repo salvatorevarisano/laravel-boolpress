@@ -10,10 +10,10 @@ class PostController extends Controller
 {
     //GET Blog posts
     public function index() {
-        $posts = Post::all();
+        $posts = Post::paginate(5);
 
         return response()->json($posts);
-        //oppure per passare piu dati
+        // per passare piu dati
         // return response()->json(compact('posts',));
         
     }

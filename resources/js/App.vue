@@ -3,11 +3,8 @@
       <Header />
 
       <main>
-          <h1>Welcome to public home</h1>
-          <article>
-        
-          </article>
-
+          <!-- component matched by the route will render here -->
+          <router-view></router-view> 
       </main>
   </div>
 </template>
@@ -24,32 +21,39 @@ export default {
 
     data() {
         return {
-            posts: [],
+           
         }
     },
 
     created() {
-        this.getPosts();
+
     },
 
     methods: {
-        getPosts() {
-            axios.get('http://127.0.0.1:8000/api/posts')
-            .then(response => {
-                console.log(response.data)
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        }
+        
+
     }
 
     
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+    @import '../sass/frontoffice/utilities';
+
     body {
-        color: red;
+        font-family:san-serir;
     }
+
+    .navigation {
+        button {
+            margin-right:  10px;
+            border-radius: 50%;
+            
+        }
+        .active-page {
+            background-color: teal;
+        }
+    }
+  
 </style>

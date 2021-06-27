@@ -21,8 +21,8 @@ Route::get('/test', function() {
 });
 
 // get posts  
-
 Route::namespace('Api')->group(function() {
+    //get posts
     Route::get('/posts', 'PostController@index');
 
 });

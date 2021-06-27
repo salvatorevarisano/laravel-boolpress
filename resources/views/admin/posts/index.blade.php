@@ -21,6 +21,7 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Category</th>
+                    <th>Created</th>
                     <th colspan="3">Actions</th>
                 </tr>
             </thead>
@@ -28,36 +29,41 @@
                 @foreach($posts as $post)
                 <tr>
                     <td>
+                        {{$post->id}}
+                    </td>
+                    <td>
+                        {{$post->title}}
+                    </td>
+                    <td>
+                        @if($post->category)
+                            {{$post->category->name}}
+                        @elseif(! $post->category)
+                            without category
+                        @endif
+                        
 
-                            {{$post->id}}
-                        </td>
-                        <td>
-                            {{$post->title}}
-                        </td>
-                        <td>
-                            @if($post->category)
-                                {{$post->category->name}}
-                            @elseif(! $post->category)
-                                without category
-                            @endif
-                            
+                    </td>
+                    <td>
+                        {{$post->created_at->format('l d/m/y')}}  {{--  carbon format --}}
+                        <div>
+                            {{$post->created_at->diffForHumans()}}  
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href="{{route('admin.posts.show', $post->id)}}">Show</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
+                    </td>
+                    <td>
+                        <form class="delete-post-form" action="{{route('admin.posts.destroy', $post->id)}}" method="POST">
+                            @csrf
+                            @method('DELETE')
 
-                        </td>
-                        <td>
-                            <a class="btn btn-success" href="{{route('admin.posts.show', $post->id)}}">Show</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" href="{{route('admin.posts.edit', $post->id)}}">Edit</a>
-                        </td>
-                        <td>
-                            <form class="delete-post-form" action="{{route('admin.posts.destroy', $post->id)}}" method="POST">
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
